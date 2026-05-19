@@ -93,10 +93,6 @@ PAUSE_BETWEEN_PAGES_MAX = 5.5
 MAX_PAGES = 1000
 
 
-class ServerBlockedError(RuntimeError):
-    """Raised when Booli explicitly rejects the request."""
-
-
 # ============================================================
 # Geografiska features
 # ============================================================
@@ -692,17 +688,8 @@ def fetch_page_with_retries(session: requests.Session, url: str, page: int) -> O
         try:
             response = session.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT_SECONDS)
 
-            # 403 betyder att servern uttryckligen nekar requesten. Det brukar inte
-            # lösas av några snabba retries, så stoppa tydligt i stället.
-            if response.status_code == 403:
-                raise ServerBlockedError(
-                    f"Booli svarade 403 Forbidden på sida {page}. "
-                    "Det är inte en timeout, utan servern nekar åtkomst just nu. "
-                    "Vänta en stund innan du kör igen och kontrollera Boolis användarvillkor."
-                )
-
-            # Om servern ber oss sakta ner eller har tillfälligt fel, vänta och försök igen.
-            if response.status_code in {429, 500, 502, 503, 504}:
+            # Om servern ber oss sakta ner, vänta extra länge och försök igen.
+            if response.status_code in {403, 429, 500, 502, 503, 504}:
                 wait_seconds = min(90, 8 * attempt + random.uniform(2, 8))
                 print(
                     f"  Servern svarade {response.status_code} på sida {page}. "
@@ -761,14 +748,7 @@ def download_raw_data() -> pd.DataFrame:
         url = BASE_URL.format(page=page)
         print(f"Hämtar sida {page}: {url}")
 
-        try:
-            html = fetch_page_with_retries(session, url, page)
-        except ServerBlockedError as exc:
-            print(f"  {exc}")
-            print("  Stoppar hämtningen och sparar eventuella delresultat.")
-            save_partial_files(rows)
-            break
-
+        html = fetch_page_with_retries(session, url, page)
         if html is None:
             skipped_pages += 1
             empty_pages += 1
