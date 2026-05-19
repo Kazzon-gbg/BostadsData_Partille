@@ -1,15 +1,31 @@
-# BostadsData_Partille
-Tar fram bostadsdata from 2023-01-01 till "ToDay"
-
 # Hämta bostadsdata för Partille kommun
 
-Detta script används för att hämta, städa och strukturera bostadsdata för
-Partille kommun, inklusive Sävedalen. Resultatet används som underlag till mitt
-examensarbete i **Python for AI**, där en maskininlärningsmodell tränas för att
-prediktera bostäders slutpris.
+Detta projekt är ett separat sidoprojekt som jag skapade av nyfikenhet för att
+kunna använda **riktig svensk bostadsdata** i mitt examensarbete i kursen
+**Python for AI**.
 
-Det här projektet är ett separat förarbete till själva AI-/modellprojektet.
-Syftet är att skapa en ren CSV-fil som kan användas som input till modellen.
+Själva examensarbetet handlar om maskininlärning, modellträning och analys.
+Det här projektet handlar däremot om att skapa datasetet som sedan kan användas
+i examensarbetet.
+
+Det är därför viktigt att skilja på:
+
+```text
+1. Hämta bostadsdata från Booli        = separat förarbete/sidoprojekt
+2. Träna AI-modell på färdig CSV-data  = själva examensarbetet
+```
+
+## Varför detta sidoprojekt skapades
+
+Från början kunde ett enklare testdataset ha använts, men jag ville undersöka om
+det gick att skapa ett mer relevant dataset med verkliga bostadsförsäljningar i
+Sverige.
+
+Därför skapades detta script för att hämta och strukturera slutpriser från
+Partille kommun, inklusive Sävedalen.
+
+Syftet är alltså inte att detta script ska vara huvudfokus i examensarbetet,
+utan att skapa ett bättre och mer verklighetsnära dataunderlag.
 
 ## Syfte
 
@@ -28,12 +44,13 @@ Syftet med scriptet är att:
 Scriptet hämtar publikt synliga slutprisuppgifter från Boolis slutprissidor för
 Partille kommun.
 
-Använd scriptet ansvarsfullt:
+Det är viktigt att scriptet används ansvarsfullt:
 
 - kör inte scriptet för ofta
 - använd låg hastighet mellan sidladdningar
 - kontrollera alltid källans användarvillkor
 - använd datan för utbildning och analys
+- granska alltid den färdiga CSV-filen innan den används i modellträning
 
 ## Output-filer
 
@@ -46,7 +63,8 @@ data/partille_housing_real_2023_today_raw_debug.csv
 
 ### `partille_housing_real_2023_today.csv`
 
-Detta är den städade ML-filen som används i examensarbetets modellträning.
+Detta är den städade ML-filen som används som input i examensarbetets
+modellträning.
 
 ### `partille_housing_real_2023_today_raw_debug.csv`
 
@@ -153,6 +171,8 @@ Detta är viktigt eftersom tidigare versioner kunde få med skräptext som:
 Gå till innehåll Gå till sök...
 ```
 
+Den städade versionen försöker undvika sådana rader.
+
 ### 4. Beräknar utgångspris
 
 Om Booli visar procentuell skillnad mellan utgångspris och slutpris kan scriptet
@@ -219,8 +239,17 @@ distance_to_savedalen_center_km
 ```
 
 Dessa koordinater är inte exakta per adress. De bygger på ungefärliga
-centrumkoordinater för områden som exempelvis Sävedalen, Öjersjö, Furulund,
-Kåhög, Jonsered och Lexby.
+centrumkoordinater för områden som exempelvis:
+
+- Sävedalen
+- Södra Sävedalen
+- Öjersjö
+- Furulund
+- Kåhög
+- Jonsered
+- Lexby
+- Ugglum
+- Björndammen
 
 Syftet är att ge modellen bättre information om läge än bara ett områdesnamn.
 
@@ -308,7 +337,8 @@ Scriptet har flera begränsningar:
 
 ## Relation till examensarbetet
 
-Detta script ingår som ett separat förarbete till examensarbetet.
+Detta projekt ligger utanför själva examensarbetet, men har skapats som ett
+separat förarbete för att kunna använda riktig data.
 
 Själva examensarbetet fokuserar på:
 
@@ -318,6 +348,7 @@ Själva examensarbetet fokuserar på:
 - träna regressionsmodeller
 - jämföra modellresultat
 - skriva resultatrapport
+- reflektera kring begränsningar och etik
 
 Detta script ansvarar endast för att skapa datasetet:
 
@@ -325,11 +356,17 @@ Detta script ansvarar endast för att skapa datasetet:
 data/partille_housing_real_2023_today.csv
 ```
 
+I examensarbetet betraktas CSV-filen som ingångsdata.
+
 ## Kort slutsats
 
 Scriptet skapar en användbar och städad dataset med verkliga bostadsförsäljningar
 för Partille kommun. Det gör det möjligt att träna en maskininlärningsmodell på
 svensk bostadsdata i stället för ett generiskt testdataset.
+
+Detta sidoprojekt är inte huvudfokus i examensarbetet, men det gör
+examensarbetet mer verklighetsnära eftersom modellen kan tränas på riktig
+bostadsdata.
 
 Samtidigt är det viktigt att förstå att datan inte är perfekt. Resultatet bör
 därför alltid kontrolleras och användas med försiktighet.
