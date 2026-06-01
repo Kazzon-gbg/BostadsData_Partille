@@ -46,7 +46,8 @@ Partille kommun.
 
 Det är viktigt att scriptet används ansvarsfullt:
 
-- kör inte scriptet för ofta
+- kör inte scriptet för ofta. Din ip kommer bli "banned" om du kör 
+  för ofta. Vänta då 12-24h så kan du göra igen.
 - använd låg hastighet mellan sidladdningar
 - kontrollera alltid källans användarvillkor
 - använd datan för utbildning och analys

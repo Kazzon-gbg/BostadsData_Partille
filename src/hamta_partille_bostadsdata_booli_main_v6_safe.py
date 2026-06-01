@@ -52,9 +52,9 @@ import requests
 from bs4 import BeautifulSoup
 
 
-# ============================================================
+
 # Inställningar
-# ============================================================
+
 
 START_DATE = date(2023, 1, 1)
 END_DATE = date.today()
@@ -93,9 +93,9 @@ PAUSE_BETWEEN_PAGES_MAX = 5.5
 MAX_PAGES = 1000
 
 
-# ============================================================
+
 # Geografiska features
-# ============================================================
+
 #
 # Detta är ungefärliga centrumkoordinater för större områden i Partille.
 # De används för att skapa bättre lägesfeatures utan att behöva geokoda varje adress.
@@ -135,7 +135,7 @@ def haversine_km(
     lat2: float,
     lon2: float,
 ) -> float:
-    """Beräkna ungefärligt avstånd i kilometer mellan två koordinater."""
+    # Beräkna ungefärligt avstånd i kilometer mellan två koordinater.
     earth_radius_km = 6371.0
 
     phi1 = math.radians(lat1)
@@ -234,9 +234,9 @@ def add_geographic_features(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-# ============================================================
+
 # Regexar
-# ============================================================
+
 
 DATE_RE = re.compile(r"(20\d{2}-\d{2}-\d{2})")
 PRICE_RE = re.compile(r"(\d[\d\s]{4,})\s*kr\b")
@@ -357,7 +357,7 @@ def estimate_asking_price(
 
 
 def clean_address(address: object) -> str:
-    """Tar bort Booli-prefix, procenttecken och skräp runt adressen."""
+    # Tar bort Booli-prefix, procenttecken och skräp runt adressen.
     address = normalize_spaces(address)
 
     address = re.sub(r"^[—–-]\s*", "", address)
@@ -521,7 +521,7 @@ def parse_sale_line(text: str, source_url: str) -> Optional[SaleRow]:
 
 
 def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
-    """Städar rådata till ML-vänlig CSV."""
+    # Städar rådata till ML-vänlig CSV.
     if df.empty:
         return df
 
@@ -724,7 +724,7 @@ def fetch_page_with_retries(session: requests.Session, url: str, page: int) -> O
 
 
 def save_partial_files(rows: list[SaleRow]) -> None:
-    """Sparar hittills hämtade rader så att man inte tappar allt vid avbrott."""
+    # Sparar hittills hämtade rader så att man inte tappar allt vid avbrott.
     if not rows:
         return
     partial_raw_df = pd.DataFrame([asdict(row) for row in rows])
